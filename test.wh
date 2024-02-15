@@ -1,0 +1,6 @@
+#!/home/dcf/Desktop/major/wish
+echo "ein"
+echo "zwei"
+echo "drei"
+echo "vier"
+cat /home/dcf/Desktop/major/test.wh

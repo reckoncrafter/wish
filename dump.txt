@@ -1,0 +1,40 @@
+// Major assignment code dump
+char** _argv_slice = (char**) malloc(sizeof(char*) * 64);
+
+                    // where is the "|"? is there one?
+                    int pipe_loc = 0;
+                    while(true){
+                        if(pipe_loc >= _argc){
+                            printf("Pipe not found.\n");
+                            // no, there isn't.
+                            pipe_loc = -1;
+                            break;
+                        }
+                        if(strcmp(_argv[pipe_loc], "|") == 0){
+                            printf("Pipe found. (%i)\n", pipe_loc);
+                            // yes, there is.
+                            break;
+                        }
+
+                        pipe_loc++;
+                    }
+                    // slice _argv before the pipe operator if it exists
+                    if(pipe_loc != -1){
+                        printf("Yes pipe.\n");
+                        for(int i = 0; i < pipe_loc; i++){
+                            char* test = (char*) malloc(sizeof(char) * (strlen(_argv[i])+1) );
+
+                            _argv_slice[i] = test;
+                            strcpy(_argv_slice[i], _argv[i]);
+                            _argv_slice[i+1] = NULL;
+
+                            // recurse to execute next command in pipeline
+                            execution(_argc - pipe_loc, (_argv + i + 2) );
+                        }
+                    }else{
+                        // No slicing, execute _argv directly.
+                        printf("No pipe.\n");
+                        _argv_slice = _argv;
+                    }
+
+                    //
